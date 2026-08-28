@@ -1,0 +1,12 @@
+flask
+redis
+psycopg2-binary
+pillow
+gunicorn
+python-dotenv
+sqlalchemy
+pytest
+pytest-cov
+flask_sqlalchemy
+python-dotenv
+Jinja2
