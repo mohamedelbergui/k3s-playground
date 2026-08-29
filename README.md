@@ -10,5 +10,4 @@ NetworkPolicy, RBAC, HPA.
 Voir `CAHIER_DES_CHARGES.pdf` pour le détail complet.
 
 ## Statut
-🚧 En cours de conception — développement à venir après approfondissement
-théorique (*Kubernetes: Up & Running*).
+🚧 En cours de développement 
