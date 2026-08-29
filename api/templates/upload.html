@@ -11,7 +11,24 @@
     <label for="image">Image</label>
     <input name="image" id="image" type="file" accept="image/*">
     <label for="filter">Filter</label>
-    <input type="text" name="filter" id="filter">
+    <select name="filter" id="filter">
+        <option value="blur">Blur</option>
+        <option value="sharpen">Sharpen</option>
+        <option value="edges">Edges</option>
+        <option value="smooth">Smooth</option>
+        <option value="smooth_more">Smooth More</option>
+        <option value="contour">Contour</option>
+        <option value="emboss">Emboss</option>
+        <option value="detail">Detail</option>
+        <option value="edge_enhance">Edge Enhance</option>
+        <option value="edge_enhance_more">Edge Enhance More</option>
+        <option value="gaussian_blur">Gaussian Blur</option>
+        <option value="unsharp_mask">Unsharp Mask</option>
+        <option value="min_filter">Min Filter</option>
+        <option value="max_filter">Max Filter</option>
+        <option value="mode_filter">Mode Filter</option>
+        <option value="grayscale">Grayscale</option>
+    </select>
     <label for="width">Width</label>
     <input type="number" name="width" id="width">
     <label for="height">Height</label>

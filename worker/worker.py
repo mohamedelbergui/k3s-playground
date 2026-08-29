@@ -31,10 +31,22 @@ def resize_image(image, width, height):
     return image.resize((width, height))
 
 FILTERS = {
+    "none": None,
     "blur": ImageFilter.BLUR,
-    "sharpon": ImageFilter.SHARPEN,
+    "sharpen": ImageFilter.SHARPEN,         
     "edges": ImageFilter.FIND_EDGES,
     "smooth": ImageFilter.SMOOTH,
+    "smooth_more": ImageFilter.SMOOTH_MORE,
+    "contour": ImageFilter.CONTOUR,
+    "emboss": ImageFilter.EMBOSS,
+    "detail": ImageFilter.DETAIL,
+    "edge_enhance": ImageFilter.EDGE_ENHANCE,
+    "edge_enhance_more": ImageFilter.EDGE_ENHANCE_MORE,
+    "gaussian_blur": ImageFilter.GaussianBlur(radius=5),
+    "unsharp_mask": ImageFilter.UnsharpMask(),
+    "min_filter": ImageFilter.MinFilter(size=3),
+    "max_filter": ImageFilter.MaxFilter(size=3),
+    "mode_filter": ImageFilter.ModeFilter(size=3),
 }
 def apply_filter(image, filter_name):
     return image.filter(FILTERS[filter_name])
