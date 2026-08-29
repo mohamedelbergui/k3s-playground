@@ -18,6 +18,3 @@ k8s/secret.yaml
 
 # Cash
 pip_cache/
-
-# Uploads
-api/aploads/

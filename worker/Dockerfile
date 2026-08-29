@@ -1,6 +1,6 @@
 FROM python:3.12-slim
 
-WORKDIR /api
+WORKDIR /worker
 COPY requirements.txt .
 COPY pip_cache/ /pip_cach/
 
@@ -8,4 +8,4 @@ RUN ["pip","install","-r","requirements.txt"]
 
 COPY . .
 
-CMD [ "python", "app.py" ]
+CMD [ "python", "worker.py" ]

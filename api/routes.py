@@ -3,9 +3,10 @@ from flask import Blueprint, request, jsonify, render_template
 import uuid
 from db import create_task, get_task
 import os
+from datetime import datetime
 
 bp=Blueprint("routes", __name__)
-UPLOAD_FOLDER = "/api/uploads"
+UPLOAD_FOLDER = "/api/uploads/originals"
 os.makedirs(UPLOAD_FOLDER,exist_ok=True)
 
 @bp.route("/upload", methods=["POST","GET"])
@@ -14,7 +15,7 @@ def upload():
         try:
             image_id = str(uuid.uuid4())
             image=request.files["image"]
-            file_name = image.filename
+            file_name = str(datetime.now())+"__"+image.filename
             filter_name = request.form.get("filter", "none")
             width = int(request.form.get("width", 300))
             height = int(request.form.get("height", 300))

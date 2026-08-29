@@ -8,7 +8,11 @@ services:
     env_file:
       - .env
     volumes:
-      - uploads:/api/uploads
+      - type: volume
+        source: uploads
+        target: /api/uploads/originals
+        volume:
+          subpath: originals
     depends_on:
       redis:
         condition: service_healthy
@@ -38,6 +42,28 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+  worker:
+    build:
+      context: worker/
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    volumes:
+      - type: volume
+        source: uploads
+        target: /worker/uploads/originals
+        volume:
+          subpath: originals
+      - type: volume
+        source: uploads
+        target: /worker/uploads/processed
+        volume:
+          subpath: processed
+    depends_on:
+      redis:
+        condition: service_healthy
+      db:
+        condition: service_healthy
 
 volumes:
   db-data:
@@ -46,12 +72,12 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: /home/mohamed/k3s-playground-volum
+      device: /home/mohamed/k3s-playground-volume-db
   uploads:
     name: "uploads"
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: /home/mohamed/k3s-playground-volum_uploads
+      device: /home/mohamed/k3s-playground-volume_uploads
 
