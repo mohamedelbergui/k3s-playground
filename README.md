@@ -19,7 +19,6 @@ Client → Flask API → Redis (queue) → Worker (Python/Pillow) → PostgreSQL
 - Resize
 - Blur
 - Sepia
-- Grayscale
 - Sharpen
 
 ## Repository structure
