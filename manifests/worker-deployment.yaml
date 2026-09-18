@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: playground
+  name: worker
+spec:
+  selector:
+    matchLabels:
+      app: worker
+  template:
+    metadata:
+      labels:
+        app: worker
+    spec:
+      containers:
+        - name: worker-pod
+          image: elbergui/playground-worker:v3
+          envFrom:
+            - configMapRef: 
+                name: config
+            - secretRef: 
+                name: secret-config
+          volumeMounts:
+            - name: images
+              mountPath: /worker/uploads/originals
+              subPath: originals
+            - name: images
+              mountPath: /worker/uploads/processed
+              subPath: processed
+      volumes:
+        - name: images
+          persistentVolumeClaim:
+            claimName: uploads-pvc
