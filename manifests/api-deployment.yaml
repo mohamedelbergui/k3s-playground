@@ -16,7 +16,7 @@ spec:
         app: api
     spec:
       containers:
-        - image: elbergui/playground-api:v1
+        - image: elbergui/playground-api:v2
           name: api-flask
           envFrom:
             - configMapRef: 
