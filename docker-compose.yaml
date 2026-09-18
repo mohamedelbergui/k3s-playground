@@ -13,6 +13,11 @@ services:
         target: /api/uploads/originals
         volume:
           subpath: originals
+      - type: volume
+        source: uploads
+        target: /worker/uploads/processed
+        volume:
+          subpath: processed
     depends_on:
       redis:
         condition: service_healthy

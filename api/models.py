@@ -11,4 +11,6 @@ class Task(db.Model):
     height = db.Column(db.Integer, nullable=False)
     status = db.Column(db.String, default="pending")
     created_at = db.Column(db.DateTime, server_default=db.func.now())
+    deleted = db.Column(db.Boolean, default=False, nullable=False)
+    deleted_at = db.Column(db.DateTime, nullable=True)
     
