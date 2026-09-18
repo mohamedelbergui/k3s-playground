@@ -1,0 +1,19 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  namespace: playground
+  name: db-init
+spec:
+  template:
+    spec:
+      containers:
+        - name: db-init-job
+          image: elbergui/playground-api:v2
+          envFrom:
+            - configMapRef: 
+                name: config
+            - secretRef: 
+                name: secret-config
+          command: ["python", "db_init.py"]
+      restartPolicy: Never
+  backoffLimit: 4
