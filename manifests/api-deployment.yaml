@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: playground
+  name: api
+  labels:
+    app: api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api
+  template:
+    metadata:
+      labels:
+        app: api
+    spec:
+      containers:
+        - image: elbergui/playground-api:v1
+          name: api-flask
+          envFrom:
+            - configMapRef: 
+                name: config
+            - secretRef: 
+                name: secret-config
+          volumeMounts:
+            - name: images
+              mountPath: /api/uploads/originals
+              subPath: originals
+      volumes:
+        - name: images
+          persistentVolumeClaim:
+            claimName: uploads-pvc

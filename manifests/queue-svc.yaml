@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: playground
+  name: queue-svc
+spec:
+  selector:
+    app: queue
+  ports:
+    - port: 6379
+      targetPort: 6379
