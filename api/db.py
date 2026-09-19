@@ -53,3 +53,40 @@ def get_gallery_images():
         }
         for task in tasks
     ]
+
+def get_trash_images():
+    """
+    Returns all soft-deleted tasks, most recently deleted first.
+    """
+    tasks = Task.query.filter_by(deleted=True).order_by(Task.deleted_at.desc()).all()
+
+    return [
+        {
+            "id": task.id,
+            "file_name": task.file_name,
+            "filter_name": task.filter_name,
+            "status": task.status,
+            "deleted_at": task.deleted_at.strftime("%Y-%m-%d %H:%M"),
+        }
+        for task in tasks
+    ]
+
+
+def restore_image(task_id: str) -> dict:
+    """
+    Restores a soft-deleted task by clearing its deleted flag and timestamp.
+    """
+    task = Task.query.get(task_id)
+
+    if task is None:
+        return {"success": False, "error": "not_found"}
+
+    if not task.deleted:
+        return {"success": False, "error": "not_deleted"}
+
+    task.deleted = False
+    task.deleted_at = None
+
+    db.session.commit()
+
+    return {"success": True, "task_id": task.id}

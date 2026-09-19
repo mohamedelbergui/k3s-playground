@@ -1,7 +1,7 @@
 from task_queue import push_task
 from flask import Blueprint, request, jsonify, render_template
 import uuid
-from db import create_task, get_task, soft_delete_image, get_gallery_images
+from db import create_task, get_task, soft_delete_image, get_gallery_images, get_trash_images, restore_image
 import os
 from datetime import datetime
 from flask import send_from_directory
@@ -69,3 +69,21 @@ def serve_processed(file_name):
 def gallery():
     images = get_gallery_images()
     return render_template("gallery.html", images=images)
+
+@bp.route("/trash", methods=["GET"])
+def trash():
+    images = get_trash_images()
+    return render_template("trash.html", images=images)
+
+
+@bp.route("/images/<string:task_id>/restore", methods=["POST"])
+def restore_image_route(task_id):
+    result = restore_image(task_id)
+
+    if not result["success"]:
+        if result["error"] == "not_found":
+            return jsonify({"message": "Image not found"}), 404
+        if result["error"] == "not_deleted":
+            return jsonify({"message": "Image is not deleted"}), 409
+
+    return jsonify({"message": "Image restored", "task_id": result["task_id"]}), 200

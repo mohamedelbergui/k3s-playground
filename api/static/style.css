@@ -308,3 +308,11 @@ p.empty-state {
     transform: scale(0.95);
     transition: opacity 0.25s ease, transform 0.25s ease;
 }
+
+.image-card button.restore-btn {
+    background-color: var(--success);
+}
+
+.image-card button.restore-btn:hover {
+    background-color: #0d9668;
+}
