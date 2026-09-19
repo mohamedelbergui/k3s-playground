@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Trash</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Trash</h1>
+
+    {% if images|length == 0 %}
+        <p class="empty-state">Trash is empty.</p>
+    {% endif %}
+
+    <div class="gallery">
+        {% for img in images %}
+        <div class="image-card" id="card-{{ img.id }}">
+            <p><strong>Deleted on:</strong> {{ img.deleted_at }}</p>
+            <p><span class="status-badge {{ img.status }}">{{ img.status }}</span></p>
+            <p><strong>Filter:</strong> {{ img.filter_name }}</p>
+
+            <div class="image-comparison">
+                <div>
+                    <p>Original</p>
+                    <img src="{{ url_for('routes.serve_original', file_name=img.file_name) }}" width="200">
+                </div>
+            </div>
+
+            <button class="restore-btn" onclick="restoreImage('{{ img.id }}')">Restore</button>
+        </div>
+        {% endfor %}
+    </div>
+
+    <script>
+        function restoreImage(imageId) {
+            fetch(`/images/${imageId}/restore`, { method: "POST" })
+                .then(response => response.json())
+                .then(data => {
+                    const card = document.getElementById(`card-${imageId}`);
+                    card.classList.add("removing");
+                    setTimeout(() => card.remove(), 250);
+                })
+                .catch(err => console.error(err));
+        }
+    </script>
+</body>
+</html>

@@ -16,7 +16,7 @@ spec:
         app: api
     spec:
       containers:
-        - image: elbergui/playground-api:v2
+        - image: elbergui/playground-api:v3
           name: api-flask
           envFrom:
             - configMapRef: 
@@ -27,6 +27,9 @@ spec:
             - name: images
               mountPath: /api/uploads/originals
               subPath: originals
+            - name: images
+              mountPath: /api/uploads/processed
+              subPath: processed
       volumes:
         - name: images
           persistentVolumeClaim:

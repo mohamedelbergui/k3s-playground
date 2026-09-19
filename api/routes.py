@@ -1,12 +1,15 @@
 from task_queue import push_task
 from flask import Blueprint, request, jsonify, render_template
 import uuid
-from db import create_task, get_task
+from db import create_task, get_task, soft_delete_image, get_gallery_images, get_trash_images, restore_image
 import os
 from datetime import datetime
+from flask import send_from_directory
+
 
 bp=Blueprint("routes", __name__)
 UPLOAD_FOLDER = "/api/uploads/originals"
+PROCESSED_FOLDER = "/worker/uploads/processed"
 os.makedirs(UPLOAD_FOLDER,exist_ok=True)
 
 @bp.route("/upload", methods=["POST","GET"])
@@ -35,3 +38,52 @@ def status(image_id):
     if not task:
         return jsonify({"error": "not found"}), 404
     return jsonify({"status": task.status})
+
+@bp.route("/images/<string:task_id>", methods=["DELETE"])
+def delete_image(task_id):
+    result = soft_delete_image(task_id)
+
+    if not result["success"]:
+        if result["error"] == "not_found":
+            return jsonify({"message": "Image not found"}), 404
+        if result["error"] == "already_deleted":
+            return jsonify({"message": "Image already deleted"}), 409
+
+    return jsonify({
+        "message": "Image moved to trash",
+        "task_id": result["task_id"],
+        "deleted_at": result["deleted_at"]
+    }), 200
+
+@bp.route("/files/originals/<string:file_name>", methods=["GET"])
+def serve_original(file_name):
+    return send_from_directory(UPLOAD_FOLDER, file_name)
+
+
+@bp.route("/files/processed/<string:file_name>", methods=["GET"])
+def serve_processed(file_name):
+    return send_from_directory(PROCESSED_FOLDER, file_name)
+
+@bp.route("/", methods=["GET"])
+@bp.route("/gallery", methods=["GET"])
+def gallery():
+    images = get_gallery_images()
+    return render_template("gallery.html", images=images)
+
+@bp.route("/trash", methods=["GET"])
+def trash():
+    images = get_trash_images()
+    return render_template("trash.html", images=images)
+
+
+@bp.route("/images/<string:task_id>/restore", methods=["POST"])
+def restore_image_route(task_id):
+    result = restore_image(task_id)
+
+    if not result["success"]:
+        if result["error"] == "not_found":
+            return jsonify({"message": "Image not found"}), 404
+        if result["error"] == "not_deleted":
+            return jsonify({"message": "Image is not deleted"}), 409
+
+    return jsonify({"message": "Image restored", "task_id": result["task_id"]}), 200

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Gallery</title>
+</head>
+<body>
+    <h1>My Images</h1>
+
+    {% if images|length == 0 %}
+        <p>No images yet.</p>
+    {% endif %}
+
+    <div class="gallery">
+        {% for img in images %}
+        <div class="image-card" id="card-{{ img.id }}">
+            <p><strong>Uploaded:</strong> {{ img.created_at }}</p>
+            <p><strong>Status:</strong> {{ img.status }}</p>
+            <p><strong>Filter:</strong> {{ img.filter_name }}</p>
+
+            <div class="image-comparison">
+                <div>
+                    <p>Original</p>
+                    <img src="{{ url_for('routes.serve_original', file_name=img.file_name) }}" width="200">
+                </div>
+
+                {% if img.status == "done" %}
+                    <div>
+                        <p><span class="status-badge {{ img.status }}">{{ img.status }}</span></p>
+                        <img src="{{ url_for('routes.serve_processed', file_name=img.file_name) }}" width="200">
+                    </div>
+                {% endif %}
+            </div>
+
+            <button onclick="deleteImage('{{ img.id }}')">Delete</button>
+        </div>
+        {% endfor %}
+    </div>
+
+    <script>
+        function deleteImage(imageId) {
+    fetch(`/images/${imageId}`, { method: "DELETE" })
+        .then(response => response.json())
+        .then(data => {
+            const card = document.getElementById(`card-${imageId}`);
+            card.classList.add("removing");
+            setTimeout(() => card.remove(), 250);
+        })
+        .catch(err => console.error(err));
+}
+    </script>
+</body>
+</html>
