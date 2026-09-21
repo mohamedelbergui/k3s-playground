@@ -69,6 +69,26 @@ services:
         condition: service_healthy
       db:
         condition: service_healthy
+  clean:
+    build:
+      context: cleaning/
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    volumes:
+      - type: volume
+        source: uploads
+        target: /app/uploads/originals
+        volume:
+          subpath: originals
+      - type: volume
+        source: uploads
+        target: /app/uploads/processed
+        volume:
+          subpath: processed
+    depends_on:
+      db:
+        condition: service_healthy
 
 volumes:
   db-data:

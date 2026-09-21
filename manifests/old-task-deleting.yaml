@@ -1,0 +1,28 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  namespace: playground
+  name: old-task-deleting
+spec:
+  schedule: "0 0 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: cleaning
+              image: 
+              volumeMounts:
+                - name: images
+                  mountPath: /uploads/originals
+                  subPath: originals
+                - name: images
+                  mountPath: /uploads/processed
+                  subPath: processed
+
+          restartPolicy: OnFailure
+          volumes:
+            - name: images
+              persistentVolumeClaim:
+                claimName: uploads-pvc
+    
