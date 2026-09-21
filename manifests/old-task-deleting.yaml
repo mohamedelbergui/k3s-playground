@@ -11,7 +11,12 @@ spec:
         spec:
           containers:
             - name: cleaning
-              image: 
+              image: elbergui/playground-cleaner:v1
+              envFrom:
+                - configMapRef: 
+                    name: config
+                - secretRef: 
+                    name: secret-config
               volumeMounts:
                 - name: images
                   mountPath: /uploads/originals
