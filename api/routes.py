@@ -9,7 +9,7 @@ from flask import send_from_directory
 
 bp=Blueprint("routes", __name__)
 UPLOAD_FOLDER = "/api/uploads/originals"
-PROCESSED_FOLDER = "/worker/uploads/processed"
+PROCESSED_FOLDER = "/api/uploads/processed"
 os.makedirs(UPLOAD_FOLDER,exist_ok=True)
 
 @bp.route("/upload", methods=["POST","GET"])

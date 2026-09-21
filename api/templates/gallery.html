@@ -21,13 +21,13 @@
             <div class="image-comparison">
                 <div>
                     <p>Original</p>
-                    <img src="{{ url_for('routes.serve_original', file_name=img.file_name) }}" width="200">
+                    <img src="{{ url_for('routes.serve_original', file_name=img.file_name) }}" >
                 </div>
 
                 {% if img.status == "done" %}
                     <div>
                         <p><span class="status-badge {{ img.status }}">{{ img.status }}</span></p>
-                        <img src="{{ url_for('routes.serve_processed', file_name=img.file_name) }}" width="200">
+                        <img src="{{ url_for('routes.serve_processed', file_name=img.file_name) }}" >
                     </div>
                 {% endif %}
             </div>

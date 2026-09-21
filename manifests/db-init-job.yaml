@@ -8,7 +8,7 @@ spec:
     spec:
       containers:
         - name: db-init-job
-          image: elbergui/playground-api:v2
+          image: elbergui/playground-api:v5
           envFrom:
             - configMapRef: 
                 name: config

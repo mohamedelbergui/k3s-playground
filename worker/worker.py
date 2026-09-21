@@ -5,6 +5,7 @@ import os
 from dotenv import load_dotenv
 import psycopg2
 
+load_dotenv()
 
 POSTGRES_HOST = os.getenv("POSTGRES_HOST")
 POSTGRES_PORT = os.getenv("POSTGRES_PORT")
