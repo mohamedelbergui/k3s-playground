@@ -16,8 +16,20 @@ spec:
         app: api
     spec:
       containers:
-        - image: elbergui/playground-api:v5
+        - image: elbergui/playground-api:v6
           name: api-flask
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: 5000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: 5000
+            initialDelaySeconds: 5
+            periodSeconds: 10
           envFrom:
             - configMapRef: 
                 name: config
