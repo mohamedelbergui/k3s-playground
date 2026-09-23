@@ -5,6 +5,8 @@ from db import create_task, get_task, soft_delete_image, get_gallery_images, get
 import os
 from datetime import datetime
 from flask import send_from_directory
+import psycopg2
+import redis
 
 
 bp=Blueprint("routes", __name__)
@@ -87,3 +89,37 @@ def restore_image_route(task_id):
             return jsonify({"message": "Image is not deleted"}), 409
 
     return jsonify({"message": "Image restored", "task_id": result["task_id"]}), 200
+
+
+# Health checks
+
+@bp.route("/health/live")
+def live():
+    return {"status": "alive"}, 200
+
+@bp.route("/health/ready")
+def ready():
+    POSTGRES_HOST = os.getenv("POSTGRES_HOST")
+    POSTGRES_PORT = os.getenv("POSTGRES_PORT")
+    POSTGRES_DB = os.getenv("POSTGRES_DB")
+    POSTGRES_USER = os.getenv("POSTGRES_USER")
+    POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD")
+
+    REDIS_HOST = os.getenv("REDIS_HOST")
+    REDIS_PORT = os.getenv("REDIS_PORT")
+    try:
+        conn = psycopg2.connect(
+            host=POSTGRES_HOST,
+            port=POSTGRES_PORT,
+            dbname=POSTGRES_DB,
+            user=POSTGRES_USER,
+            password=POSTGRES_PASSWORD,
+            connect_timeout=1
+        )
+        conn.close()
+        r = redis.Redis(host=REDIS_HOST, port=REDIS_PORT, decode_responses=True)
+        r.close()
+    except Exception:
+        return {"status":"not ready"}, 503
+
+    return {"status": "ready"}, 200
