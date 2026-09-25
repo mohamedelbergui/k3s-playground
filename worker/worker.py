@@ -52,12 +52,20 @@ FILTERS = {
 def apply_filter(image, filter_name):
     return image.filter(FILTERS[filter_name])
 
-r = redis.Redis(host=REDIS_HOST, port=REDIS_PORT, decode_responses=True)
+r = redis.Redis(
+    host=REDIS_HOST, 
+    port=REDIS_PORT, 
+    decode_responses=True,
+    socket_timeout=10,         
+    socket_connect_timeout=5,
+    retry_on_timeout=True, 
+    )
 
 with conn.cursor() as cur:
     while True:
-        raw_task = r.rpop("image_tasks")
-        if raw_task:
+        result = r.blpop("image_tasks", timeout=5)
+        if result:
+            _,raw_task = result
             task = None
             try:
                 task = json.loads(raw_task)

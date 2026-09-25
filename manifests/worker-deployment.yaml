@@ -14,7 +14,14 @@ spec:
     spec:
       containers:
         - name: worker-pod
-          image: elbergui/playground-worker:v3
+          image: elbergui/playground-worker:v5
+          resources:
+            requests:
+              memory: "48Mi"
+              cpu: "30m"
+            limits:
+              memory: "128Mi"
+              cpu:  "400m"
           envFrom:
             - configMapRef: 
                 name: config

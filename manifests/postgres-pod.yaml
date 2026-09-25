@@ -9,6 +9,13 @@ spec:
   containers:
     - name: postgres
       image: postgres:trixie
+      resources:
+        requests:
+          memory: "64Mi"
+          cpu: "20m"
+        limits:
+          memory: "128Mi"
+          cpu:  "150m"
       env:
         - name: POSTGRES_USER
           valueFrom:
