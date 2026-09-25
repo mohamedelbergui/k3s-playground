@@ -52,7 +52,14 @@ FILTERS = {
 def apply_filter(image, filter_name):
     return image.filter(FILTERS[filter_name])
 
-r = redis.Redis(host=REDIS_HOST, port=REDIS_PORT, decode_responses=True)
+r = redis.Redis(
+    host=REDIS_HOST, 
+    port=REDIS_PORT, 
+    decode_responses=True,
+    socket_timeout=10,         
+    socket_connect_timeout=5,
+    retry_on_timeout=True, 
+    )
 
 with conn.cursor() as cur:
     while True:
