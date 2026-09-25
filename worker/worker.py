@@ -56,8 +56,9 @@ r = redis.Redis(host=REDIS_HOST, port=REDIS_PORT, decode_responses=True)
 
 with conn.cursor() as cur:
     while True:
-        raw_task = r.rpop("image_tasks")
-        if raw_task:
+        result = r.blpop("image_tasks", timeout=5)
+        if result:
+            _,raw_task = result
             task = None
             try:
                 task = json.loads(raw_task)

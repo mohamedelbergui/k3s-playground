@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: worker-pod
-          image: elbergui/playground-worker:v3
+          image: elbergui/playground-worker:v4
           envFrom:
             - configMapRef: 
                 name: config
