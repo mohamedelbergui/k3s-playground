@@ -18,6 +18,13 @@ spec:
       containers:
         - image: elbergui/playground-api:v6
           name: api-flask
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "20m"
+            limits:
+              memory: "128Mi"
+              cpu:  "150m"
           livenessProbe:
             httpGet:
               path: /health/live
