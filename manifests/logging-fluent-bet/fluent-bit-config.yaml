@@ -15,10 +15,11 @@ data:
         Name              tail
         Tag               kube.*
         Path              /var/log/containers/*.log
-        Parser            docker
+        Parser            cri
         DB                /var/log/flb_kube.db
         Mem_Buf_Limit     5MB
         Skip_Long_Lines   On
+        Refresh_Interval  10
 
     [FILTER]
         Name                kubernetes
@@ -32,14 +33,19 @@ data:
         K8S-Logging.Parser  On
         K8S-Logging.Exclude On
 
+    [FILTER]
+        Name    grep
+        Match   kube.*
+        Exclude $kubernetes['container_name'] fluent-bit
+
     [OUTPUT]
         Name   stdout
         Match  *
 
   parsers.conf: |
     [PARSER]
-        Name        docker
-        Format      json
+        Name        cri
+        Format      regex
+        Regex       ^(?<time>[^ ]+) (?<stream>stdout|stderr) (?<logtag>[^ ]*) (?<log>.*)$
         Time_Key    time
-        Time_Format %Y-%m-%dT%H:%M:%S.%L
-        Time_Keep   On
+        Time_Format %Y-%m-%dT%H:%M:%S.%L%z
