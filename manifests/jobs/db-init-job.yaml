@@ -3,8 +3,13 @@ kind: Job
 metadata:
   namespace: playground
   name: db-init
+  labels:
+    app: db-init
 spec:
   template:
+    metadata:
+      labels:
+        app: db-init
     spec:
       containers:
         - name: db-init-job
