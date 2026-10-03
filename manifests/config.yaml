@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: playground
+  name: config
+data:
+  POSTGRES_HOST: postgres-rw
+  POSTGRES_PORT: "5432"
+  POSTGRES_DB: "k3s-playground-db"
+  REDIS_HOST: queue-svc
+  REDIS_PORT: "6379"
+  CLEANING_AFTER: "0"

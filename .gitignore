@@ -20,5 +20,4 @@ k8s/secret.yaml
 pip_cache/
 
 
-manifests/config.yaml
 manifests/secret-config.yaml
