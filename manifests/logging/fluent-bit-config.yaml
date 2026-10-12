@@ -39,8 +39,10 @@ data:
         Exclude $kubernetes['container_name'] fluent-bit
 
     [OUTPUT]
-        Name   stdout
+        Name   loki
         Match  *
+        host   loki
+        port   3100
 
   parsers.conf: |
     [PARSER]
