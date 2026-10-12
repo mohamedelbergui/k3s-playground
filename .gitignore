@@ -21,3 +21,5 @@ pip_cache/
 
 
 manifests/secret-config.yaml
+
+secrets(not_push)/
