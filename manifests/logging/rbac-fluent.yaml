@@ -26,7 +26,7 @@ metadata:
   name: read-secrets-global
 subjects:
   - kind: ServiceAccount
-    name: fluent-sa
+    name: fluent-bit
     namespace: logging
 roleRef:
   kind: ClusterRole
