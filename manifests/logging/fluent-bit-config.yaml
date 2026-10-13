@@ -39,10 +39,13 @@ data:
         Exclude $kubernetes['container_name'] fluent-bit
 
     [OUTPUT]
-        Name   loki
-        Match  *
-        host   loki
-        port   3100
+        Name         loki
+        Match        kube.*
+        Host         loki
+        Port         3100
+        Labels       job=fluent-bit, namespace=$kubernetes['namespace_name'], pod=$kubernetes['pod_name'], container=$kubernetes['container_name']
+        Remove_Keys  kubernetes,stream,logtag
+        Line_Format  json
 
   parsers.conf: |
     [PARSER]
