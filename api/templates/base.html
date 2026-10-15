@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title></title>
+</head>
+<body>
+    <nav>
+            <a href="{{ url_for('routes.gallery') }}">Gellery</a>
+            <a href="{{ url_for('routes.trash') }}">Trash</a>
+            <a href="{{ url_for('routes.upload') }}">Upload</a>
+    </nav>
+    {% block content %}
+    {% endblock %}
+</body>
+</html>
