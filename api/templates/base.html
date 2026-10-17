@@ -8,9 +8,15 @@
 </head>
 <body>
     <nav>
-            <a href="{{ url_for('routes.gallery') }}">Gellery</a>
-            <a href="{{ url_for('routes.trash') }}">Trash</a>
-            <a href="{{ url_for('routes.upload') }}">Upload</a>
+            <a href="{{ url_for('routes.gallery') }}">
+                Gellery
+            </a>
+            <a href="{{ url_for('routes.trash') }}">
+                Trash
+            </a>
+            <a href="{{ url_for('routes.upload') }}">
+                Upload
+            </a>
     </nav>
     {% block content %}
     {% endblock %}
