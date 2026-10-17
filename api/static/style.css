@@ -2,76 +2,171 @@
    1. VARIABLES & RESET
    ========================================================================== */
 :root {
-    --bg-color: #f8fafc;
+    --bg-color: #f1f5f9;
+    --bg-gradient: radial-gradient(circle at 10% 0%, #e0e7ff 0%, transparent 45%),
+                   radial-gradient(circle at 100% 20%, #fce7f3 0%, transparent 40%);
     --text-main: #334155;
     --text-muted: #64748b;
-    --primary: #6366f1;    
+    --heading: #0f172a;
+    --primary: #6366f1;
     --primary-hover: #4f46e5;
+    --primary-soft: rgba(99, 102, 241, 0.12);
     --danger: #ef4444;
     --danger-hover: #dc2626;
     --warning: #f59e0b;
     --success: #10b981;
+    --success-hover: #059669;
     --card-bg: #ffffff;
-    --border-radius: 8px;
-    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --input-bg: #ffffff;
+    --border: #e2e8f0;
+    --border-strong: #cbd5e1;
+    --border-radius: 12px;
+    --radius-sm: 8px;
+    --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06), 0 1px 3px rgba(15, 23, 42, 0.08);
+    --shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.08), 0 2px 4px -2px rgba(15, 23, 42, 0.06);
+    --shadow-lg: 0 20px 25px -5px rgba(15, 23, 42, 0.12), 0 8px 10px -6px rgba(15, 23, 42, 0.08);
+    --transition: 0.2s ease;
 }
 
-* {
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-color: #0b1120;
+        --bg-gradient: radial-gradient(circle at 10% 0%, rgba(99, 102, 241, 0.18) 0%, transparent 45%),
+                       radial-gradient(circle at 100% 20%, rgba(236, 72, 153, 0.10) 0%, transparent 40%);
+        --text-main: #cbd5e1;
+        --text-muted: #94a3b8;
+        --heading: #f1f5f9;
+        --primary: #818cf8;
+        --primary-hover: #6366f1;
+        --primary-soft: rgba(129, 140, 248, 0.18);
+        --card-bg: #162033;
+        --input-bg: #0f172a;
+        --border: #263349;
+        --border-strong: #334155;
+        --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+        --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
+        --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
+    }
+}
+
+*,
+*::before,
+*::after {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
+html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+}
+
 body {
-    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
     background-color: var(--bg-color);
+    background-image: var(--bg-gradient);
+    background-attachment: fixed;
     color: var(--text-main);
     line-height: 1.6;
+    min-height: 100vh;
     padding-bottom: 3rem;
+    -webkit-font-smoothing: antialiased;
 }
 
 h1, h2, h3 {
-    color: #1e293b;
+    color: var(--heading);
     margin-bottom: 1rem;
+    letter-spacing: -0.02em;
 }
 
 h1 {
     text-align: center;
     margin-top: 2rem;
     margin-bottom: 2rem;
-    font-weight: 600;
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
+    font-weight: 700;
+}
+
+h1::after {
+    content: "";
+    display: block;
+    width: 48px;
+    height: 4px;
+    margin: 0.6rem auto 0;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--primary), #ec4899);
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+:focus-visible {
+    outline: 3px solid var(--primary-soft);
+    outline-offset: 2px;
+    border-radius: 4px;
 }
 
 /* ==========================================================================
    2. NAVIGATION
    ========================================================================== */
 nav {
-    background-color: var(--card-bg);
-    padding: 1rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
     display: flex;
     align-items: center;
-    gap: 1.5rem;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0.75rem 2rem;
     margin-bottom: 2rem;
+    background-color: color-mix(in srgb, var(--card-bg) 85%, transparent);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
 }
 
 nav a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
     text-decoration: none;
     color: var(--text-muted);
     font-weight: 500;
-    transition: color 0.2s ease;
+    font-size: 0.95rem;
+    border-radius: 999px;
+    transition: color var(--transition), background-color var(--transition), transform var(--transition);
+}
+
+nav a svg {
+    flex-shrink: 0;
+    transition: transform var(--transition);
 }
 
 nav a:hover {
     color: var(--primary);
+    background-color: var(--primary-soft);
+}
+
+nav a:hover svg {
+    transform: scale(1.15);
+}
+
+nav a:active {
+    transform: scale(0.97);
 }
 
 nav form {
-    margin-left: auto; 
+    margin-left: auto;
     background: transparent;
     padding: 0;
     box-shadow: none;
     max-width: none;
+    border-radius: 0;
 }
 
 nav form input[type="submit"] {
@@ -86,69 +181,160 @@ nav form input[type="submit"]:hover {
 }
 
 /* ==========================================================================
-   3. FORMULAIRES (Création, Édition, Login, Signup)
+   3. FORMS (Upload, Create, Edit, Login, Signup)
    ========================================================================== */
 form {
-    max-width: 450px;
+    max-width: 480px;
     margin: 0 auto 2rem auto;
     background: var(--card-bg);
     padding: 2rem;
+    border: 1px solid var(--border);
     border-radius: var(--border-radius);
-    box-shadow: var(--shadow);
+    box-shadow: var(--shadow-lg);
 }
 
 form label {
     display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 500;
-    font-size: 0.95rem;
-    color: var(--text-main);
+    margin-bottom: 0.4rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--heading);
 }
 
 form input[type="text"],
 form input[type="number"],
-form input[type="password"] {
+form input[type="password"],
+form input[type="email"],
+form select {
     width: 100%;
-    padding: 0.75rem;
-    margin-bottom: 1.5rem;
-    border: 1px solid #cbd5e1;
-    border-radius: 6px;
+    padding: 0.75rem 0.9rem;
+    margin-bottom: 1.25rem;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    background-color: var(--input-bg);
+    color: var(--text-main);
     font-size: 1rem;
-    transition: border-color 0.2s, box-shadow 0.2s;
+    font-family: inherit;
+    transition: border-color var(--transition), box-shadow var(--transition);
 }
 
-form input:focus {
+form input::placeholder {
+    color: var(--text-muted);
+    opacity: 0.7;
+}
+
+form input:hover,
+form select:hover {
+    border-color: var(--primary);
+}
+
+form input:focus,
+form select:focus {
     outline: none;
     border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+    box-shadow: 0 0 0 4px var(--primary-soft);
 }
 
-form input[type="checkbox"] {
-    margin-bottom: 1.5rem;
-    transform: scale(1.2);
-    margin-right: 0.5rem;
+/* Dropdown (filter) */
+form select {
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    padding-right: 2.5rem;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' viewBox='0 0 24 24'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.9rem center;
+    background-size: 16px;
 }
 
-/* Boutons de validation génériques */
-input[type="submit"] {
+/* File input */
+form input[type="file"] {
+    display: block;
     width: 100%;
-    background-color: var(--primary);
-    color: white;
-    padding: 0.75rem 1.5rem;
+    padding: 1.25rem 1rem;
+    margin-bottom: 1.25rem;
+    border: 2px dashed var(--border-strong);
+    border-radius: var(--radius-sm);
+    background-color: var(--input-bg);
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-family: inherit;
+    cursor: pointer;
+    transition: border-color var(--transition), background-color var(--transition);
+}
+
+form input[type="file"]:hover {
+    border-color: var(--primary);
+    background-color: var(--primary-soft);
+}
+
+form input[type="file"]::file-selector-button {
+    margin-right: 1rem;
+    padding: 0.5rem 1rem;
     border: none;
     border-radius: 6px;
-    font-size: 1rem;
+    background-color: var(--primary);
+    color: #fff;
     font-weight: 600;
+    font-family: inherit;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: background-color var(--transition);
 }
 
-input[type="submit"]:hover {
+form input[type="file"]::file-selector-button:hover {
     background-color: var(--primary-hover);
 }
 
+form input[type="checkbox"] {
+    margin-bottom: 1.25rem;
+    margin-right: 0.5rem;
+    transform: scale(1.2);
+    accent-color: var(--primary);
+}
+
+/* Generic submit buttons */
+input[type="submit"] {
+    display: block;
+    width: 100%;
+    margin-top: 0.5rem;
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: var(--radius-sm);
+    background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: inherit;
+    letter-spacing: 0.01em;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);
+    transition: transform var(--transition), box-shadow var(--transition), filter var(--transition);
+}
+
+input[type="submit"]:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.08);
+    box-shadow: 0 6px 16px rgba(99, 102, 241, 0.45);
+}
+
+input[type="submit"]:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(99, 102, 241, 0.35);
+}
+
+/* The nav button (logout) keeps its own style */
+nav form input[type="submit"] {
+    background: var(--danger);
+    box-shadow: none;
+}
+
+nav form input[type="submit"]:hover {
+    background: var(--danger-hover);
+    box-shadow: none;
+}
+
 /* ==========================================================================
-   5. ALERTES (Flash Messages)
+   5. ALERTS (Flash Messages)
    ========================================================================== */
 .flash-messages {
     max-width: 600px;
@@ -158,24 +344,30 @@ input[type="submit"]:hover {
 
 .alert {
     padding: 1rem 1.5rem;
-    border-radius: 6px;
+    border-radius: var(--radius-sm);
     margin-bottom: 1rem;
     font-weight: 500;
     box-shadow: var(--shadow);
+    animation: slide-in 0.3s ease;
 }
 
 .alert.success { background-color: #d1fae5; color: #065f46; border-left: 4px solid #10b981; }
 .alert.error, .alert.danger { background-color: #fee2e2; color: #991b1b; border-left: 4px solid #ef4444; }
 .alert.info { background-color: #dbeafe; color: #1e40af; border-left: 4px solid #3b82f6; }
 
+@keyframes slide-in {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
 /* ==========================================================================
-   6. PAGE DE CONFIRMATION DE SUPPRESSION
+   6. CENTERED HEADINGS / CONFIRMATION PAGE
    ========================================================================== */
 h2 {
     text-align: center;
     max-width: 600px;
     margin: 3rem auto 1.5rem auto;
-    color: var(--text-main);
+    color: var(--heading);
     line-height: 1.4;
     padding: 0 1rem;
 }
@@ -193,19 +385,22 @@ h2 {
 }
 
 .image-card {
-    background: var(--card-bg);
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow);
-    padding: 1.25rem;
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    gap: 0.6rem;
+    padding: 1.25rem;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
 .image-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    transform: translateY(-4px);
+    border-color: var(--primary-soft);
+    box-shadow: var(--shadow-lg);
 }
 
 .image-card p {
@@ -216,97 +411,93 @@ h2 {
 
 .image-card p strong {
     color: var(--text-main);
+    font-weight: 600;
 }
 
-/* Badge de statut */
+/* Status badge */
 .status-badge {
     display: inline-block;
-    padding: 0.2rem 0.7rem;
+    padding: 0.2rem 0.75rem;
     border-radius: 999px;
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     font-weight: 600;
+    letter-spacing: 0.02em;
     text-transform: capitalize;
 }
 
-.status-badge.pending {
-    background-color: #fef3c7;
-    color: #92400e;
+.status-badge.pending    { background-color: #fef3c7; color: #92400e; }
+.status-badge.processing { background-color: #dbeafe; color: #1e40af; animation: pulse 1.6s ease-in-out infinite; }
+.status-badge.done       { background-color: #d1fae5; color: #065f46; }
+.status-badge.failed     { background-color: #fee2e2; color: #991b1b; }
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.55; }
 }
 
-.status-badge.processing {
-    background-color: #dbeafe;
-    color: #1e40af;
-}
-
-.status-badge.done {
-    background-color: #d1fae5;
-    color: #065f46;
-}
-
-.status-badge.failed {
-    background-color: #fee2e2;
-    color: #991b1b;
-}
-
-/* Comparaison avant / après */
+/* Before / after comparison */
 .image-comparison {
     display: flex;
     gap: 1rem;
     justify-content: space-between;
+    margin-top: 0.4rem;
 }
 
 .image-comparison > div {
     flex: 1;
+    min-width: 0;
     text-align: center;
 }
 
 .image-comparison p {
-    font-size: 0.8rem;
-    font-weight: 600;
     margin-bottom: 0.4rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
     color: var(--text-muted);
 }
 
 .image-comparison img {
-    width: 100%;
-    height: 150px;
+    width: 100%;          /* overrides the width="200" attribute used in the trash page */
+    height: 160px;
     object-fit: cover;
-    border-radius: 6px;
-    border: 1px solid #e2e8f0;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    background-color: var(--border);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Bouton delete */
+.image-comparison img:hover {
+    transform: scale(1.04);
+    box-shadow: var(--shadow);
+    position: relative;
+    z-index: 1;
+}
+
+/* Delete / restore buttons */
 .image-card button {
-    background-color: var(--danger);
-    color: white;
+    margin-top: auto;
+    padding: 0.65rem 1rem;
     border: none;
-    padding: 0.6rem 1rem;
-    border-radius: 6px;
+    border-radius: var(--radius-sm);
+    background-color: var(--danger);
+    color: #fff;
     font-size: 0.9rem;
     font-weight: 600;
+    font-family: inherit;
     cursor: pointer;
-    transition: background-color 0.2s ease;
-    margin-top: auto;
+    transition: background-color var(--transition), transform var(--transition), box-shadow var(--transition);
 }
 
 .image-card button:hover {
     background-color: var(--danger-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(239, 68, 68, 0.35);
 }
 
-/* État vide */
-.gallery + p,
-p.empty-state {
-    text-align: center;
-    color: var(--text-muted);
-    margin: 2rem 0;
-    font-size: 1rem;
-}
-
-/* Animation de suppression */
-.image-card.removing {
-    opacity: 0;
-    transform: scale(0.95);
-    transition: opacity 0.25s ease, transform 0.25s ease;
+.image-card button:active {
+    transform: translateY(0);
 }
 
 .image-card button.restore-btn {
@@ -314,5 +505,70 @@ p.empty-state {
 }
 
 .image-card button.restore-btn:hover {
-    background-color: #0d9668;
+    background-color: var(--success-hover);
+    box-shadow: 0 4px 10px rgba(16, 185, 129, 0.35);
+}
+
+/* Empty state ("No images yet." / "Trash is empty.") */
+.gallery + p,
+h1 + p,
+p.empty-state {
+    max-width: 480px;
+    margin: 2rem auto;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    font-size: 1rem;
+    color: var(--text-muted);
+    background: var(--card-bg);
+    border: 2px dashed var(--border-strong);
+    border-radius: var(--border-radius);
+}
+
+/* Removal animation (class added by the JS on delete / restore) */
+.image-card.removing {
+    opacity: 0;
+    transform: scale(0.92);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+/* ==========================================================================
+   8. RESPONSIVE
+   ========================================================================== */
+@media (max-width: 640px) {
+    nav {
+        padding: 0.6rem 1rem;
+        justify-content: center;
+    }
+
+    nav a {
+        padding: 0.45rem 0.8rem;
+        font-size: 0.9rem;
+    }
+
+    form {
+        margin: 0 1rem 2rem;
+        padding: 1.5rem;
+    }
+
+    .gallery {
+        grid-template-columns: 1fr;
+        padding: 0 1rem;
+    }
+
+    .image-comparison img {
+        height: 130px;
+    }
+}
+
+/* ==========================================================================
+   9. ACCESSIBILITY: reduced motion
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
+    }
 }
