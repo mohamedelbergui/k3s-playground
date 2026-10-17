@@ -55,11 +55,11 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: /home/mohamed/playground-volum/test-db
+      device: /home/runner/mohamed/playground-volum/test-db
   uploads-test:
     name: "uploads-test"
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: /home/mohamed/playground-volum/test-upload
+      device: /home/runner/mohamed/playground-volum/test-upload
