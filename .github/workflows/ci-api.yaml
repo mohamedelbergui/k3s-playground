@@ -14,7 +14,8 @@ jobs:
         name: Checkout code
         uses: actions/checkout@v4
       
-      - name: Create test environment file
+      - 
+        name: Create test environment file
         working-directory: api
         run: |
           cat > .env <<'EOF'
@@ -26,6 +27,17 @@ jobs:
           REDIS_HOST=${{ vars.TEST_REDIS_HOST }}
           REDIS_PORT=${{ vars.TEST_REDIS_PORT }}
           EOF
+      - 
+        name: Create important folders
+        run: |
+          mkdir -p ~/mohamed/k3s-playground-volume-db
+          chmod 777 ~/mohamed/k3s-playground-volume-db
+          mkdir -p ~/mohamed/k3s-playground-volume_uploads
+          chmod 777 ~/mohamed/k3s-playground-volume_uploads
+          mkdir ~/mohamed/k3s-playground-volume_uploads/originals
+          mkdir ~/mohamed/k3s-playground-volume_uploads/processed
+          chmod 777 ~/mohamed/k3s-playground-volume_uploads/originals
+          chmod 777 ~/mohamed/k3s-playground-volume_uploads/processed
       -
         name: Run tests
         working-directory: api
