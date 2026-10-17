@@ -30,14 +30,14 @@ jobs:
       - 
         name: Create important folders
         run: |
-          mkdir -p ~/mohamed/k3s-playground-volume-db
-          chmod 777 ~/mohamed/k3s-playground-volume-db
-          mkdir -p ~/mohamed/k3s-playground-volume_uploads
-          chmod 777 ~/mohamed/k3s-playground-volume_uploads
-          mkdir ~/mohamed/k3s-playground-volume_uploads/originals
-          mkdir ~/mohamed/k3s-playground-volume_uploads/processed
-          chmod 777 ~/mohamed/k3s-playground-volume_uploads/originals
-          chmod 777 ~/mohamed/k3s-playground-volume_uploads/processed
+          mkdir -p ~/mohamed/playground-volum/test-db
+          chmod 777 ~/mohamed/playground-volum/test-db
+          mkdir -p ~/mohamed/playground-volum/test-upload
+          chmod 777 ~/mohamed/playground-volum/test-upload
+          mkdir ~/mohamed/playground-volum/test-upload/originals
+          mkdir ~/mohamed/playground-volum/test-upload/processed
+          chmod 777 ~/mohamed/playground-volum/test-upload/originals
+          chmod 777 ~/mohamed/playground-volum/test-upload/processed
       -
         name: Run tests
         working-directory: api
