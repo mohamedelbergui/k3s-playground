@@ -45,8 +45,8 @@ jobs:
         name: Run tests
         working-directory: api
         run: |
-          docker compose -f compose.tests.yaml run --build --rm api-test \
-            sh -c "pip install pytest requests && pytest -v"
+          docker compose -f compose.tests.yaml exec -T api-test \
+          sh -c "pip install pytest requests && pytest -v"
       - name: Cleanup
         if: always()
         working-directory: api
