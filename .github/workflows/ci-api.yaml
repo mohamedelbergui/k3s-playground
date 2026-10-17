@@ -7,8 +7,39 @@ on:
       - 'api/**'
       
 jobs:
-  docker_api:
+  tests:
     runs-on: ubuntu-latest
+    steps:
+      - 
+        name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Create test environment file
+        working-directory: api
+        run: |
+          cat > .env <<'EOF'
+          POSTGRES_HOST=${{ vars.TEST_POSTGRES_HOST }}
+          POSTGRES_PORT=${{ vars.TEST_POSTGRES_PORT }}
+          POSTGRES_DB=${{ vars.TEST_POSTGRES_DB }}
+          POSTGRES_USER=${{ secrets.TEST_POSTGRES_USER }}
+          POSTGRES_PASSWORD=${{ secrets.TEST_POSTGRES_PASSWORD }}
+          REDIS_HOST=${{ vars.TEST_REDIS_HOST }}
+          REDIS_PORT=${{ vars.TEST_REDIS_PORT }}
+          EOF
+      -
+        name: Run tests
+        working-directory: api
+        run: |
+          docker compose -f compose.tests.yaml run --build --rm api-test \
+            sh -c "pip install pytest requests && pytest -v"
+      - name: Cleanup
+        if: always()
+        working-directory: api
+        run: docker compose -f compose.tests.yaml down -v
+
+  build-and-push:
+    runs-on: ubuntu-latest
+    needs: tests
     steps:
       - 
         name: Checkout code
