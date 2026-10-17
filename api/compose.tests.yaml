@@ -1,0 +1,65 @@
+services:
+  api-test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 5000:5000
+    env_file:
+      - .env
+    volumes:
+      - type: volume
+        source: uploads-test
+        target: /api/uploads/originals
+        volume:
+          subpath: originals
+      - type: volume
+        source: uploads-test
+        target: /api/uploads/processed
+        volume:
+          subpath: processed
+    depends_on:
+      redis-test:
+        condition: service_healthy
+      db-test:
+        condition: service_healthy
+  
+  redis-test:
+    image: redis:7-alpine
+    ports:
+      - ${REDIS_PORT}:6379
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+      start_period: 10s
+  db-test:
+    image: postgres:trixie
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - db-test:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U \"$${POSTGRES_USER}\" -d \"$${POSTGRES_DB}\""]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+  
+volumes:
+  db-test:
+    name: "db-test"
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/mohamed/playground-volum/test-db
+  uploads-test:
+    name: "uploads-test"
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/mohamed/playground-volum/test-upload

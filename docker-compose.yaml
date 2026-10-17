@@ -15,7 +15,7 @@ services:
           subpath: originals
       - type: volume
         source: uploads
-        target: /worker/uploads/processed
+        target: /api/uploads/processed
         volume:
           subpath: processed
     depends_on:

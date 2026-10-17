@@ -35,7 +35,7 @@ def soft_delete_image(id: str) -> dict:
 
     db.session.commit()
 
-    return {"success": True, "id": image.uid, "deleted_at": image.deleted_at.isoformat()}
+    return {"success": True, "id": image.id, "deleted_at": image.deleted_at.isoformat()}
 
 def get_gallery_images():
     """

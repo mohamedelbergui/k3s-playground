@@ -1,4 +1,6 @@
-from app import app, db
+from run import app
+from models import db
+
 import models  
 
 with app.app_context():
