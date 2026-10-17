@@ -38,6 +38,9 @@ jobs:
           mkdir ~/mohamed/playground-volum/test-upload/processed
           chmod 777 ~/mohamed/playground-volum/test-upload/originals
           chmod 777 ~/mohamed/playground-volum/test-upload/processed
+      - name: Start compose
+        working-directory: api
+        run: docker compose -f compose.tests.yaml up -d
       -
         name: Run tests
         working-directory: api
