@@ -48,7 +48,7 @@ def upload(filename="test.png", content=PNG_BYTES, **form):
 @pytest.fixture
 def image_id():
     """Upload a valid image and return its id."""
-    response = upload(filter="grayscale", width=100, height=100)
+    response = upload(filter="blur", width=100, height=100)
     assert response.status_code == 202
     return response.json()["image_id"]
 
