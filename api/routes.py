@@ -36,7 +36,6 @@ ALLOWED_FILTERS = {
 }
 MAX_SIZE = 4000  # max width/height in pixels
 
-
 @bp.route("/upload", methods=["POST", "GET"])
 def upload():
     if request.method == "GET":
