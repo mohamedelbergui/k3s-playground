@@ -40,13 +40,14 @@ jobs:
           chmod 777 ~/mohamed/playground-volum/test-upload/processed
       - name: Start compose
         working-directory: api
-        run: docker compose -f compose.tests.yaml up -d
+        run: |
+          docker compose -f compose.tests.yaml up -d
       -
         name: Run tests
         working-directory: api
         run: |
           docker compose -f compose.tests.yaml exec -T api-test \
-          sh -c "pip install pytest requests && pytest -v"
+          sh -c "python db_init.py && pip install pytest requests && pytest -v"
       - name: Cleanup
         if: always()
         working-directory: api
