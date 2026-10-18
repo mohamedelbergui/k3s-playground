@@ -1,0 +1,17 @@
+# secrets / local config
+.env
+.env.*
+!.env.example
+
+# python junk
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+venv/
+
+# not needed in the image
+Dockerfile
+.dockerignore
+compose.tests.yaml
+.gitkeep
