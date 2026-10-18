@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: worker-pod
-          image: elbergui/playground-worker:v5
+          image: elbergui/playground-worker:latest
           resources:
             requests:
               memory: "48Mi"
