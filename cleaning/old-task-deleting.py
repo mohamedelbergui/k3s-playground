@@ -30,7 +30,7 @@ PROCESSED_FOLDER = "/app/uploads/processed"
 with conn.cursor() as cur:
     cur.execute(
         """
-        SELECT id, file_name FROM task
+        SELECT id, file_name FROM tasks
         WHERE 
         deleted
         AND deleted_at IS NOT NULL
@@ -47,7 +47,7 @@ with conn.cursor() as cur:
                     os.remove(path)
             cur.execute(
                 """
-                DELETE FROM task
+                DELETE FROM tasks
                 WHERE
                 id=%s
                 """

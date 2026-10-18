@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
 class Task(db.Model):
-    __table_name__ = "tasks"
+    __tablename__ = "tasks"
     id = db.Column(db.String, primary_key=True)
     file_name = db.Column(db.String, nullable=False)
     filter_name = db.Column(db.String, nullable=True)
