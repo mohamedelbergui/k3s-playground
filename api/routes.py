@@ -17,7 +17,23 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(PROCESSED_FOLDER, exist_ok=True)
 
 ALLOWED_EXTENSIONS = {".png", ".jpg", ".jpeg", ".webp"}
-ALLOWED_FILTERS = {"none", "blur", "sepia", "grayscale", "sharpen"}
+ALLOWED_FILTERS = {
+    "blur",
+    "sharpen",
+    "edges",
+    "smooth",
+    "smooth_more",
+    "contour",
+    "emboss",
+    "detail",
+    "edge_enhance",
+    "edge_enhance_more",
+    "gaussian_blur",
+    "unsharp_mask",
+    "min_filter",
+    "max_filter",
+    "mode_filter",
+}
 MAX_SIZE = 4000  # max width/height in pixels
 
 

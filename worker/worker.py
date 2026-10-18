@@ -79,7 +79,7 @@ with conn.cursor() as cur:
                 filtered = apply_filter(image=resized, filter_name=task['filter']) if task['filter'] else resized
                 filtered.save(PROCESSED_FOLDER + "/" + task['filename'])
 
-                cur.execute("UPDATE task SET status=%s WHERE id=%s", ("done", task['image_id']))
+                cur.execute("UPDATE tasks SET status=%s WHERE id=%s", ("done", task['image_id']))
                 conn.commit()
 
             except Exception as e:
@@ -88,7 +88,7 @@ with conn.cursor() as cur:
 
                 if task and task.get('image_id') is not None:
                     try:
-                        cur.execute("UPDATE task SET status=%s WHERE id=%s", ("failed", task['image_id']))
+                        cur.execute("UPDATE tasks SET status=%s WHERE id=%s", ("failed", task['image_id']))
                         conn.commit()
                     except Exception as db_err:
                         conn.rollback()
