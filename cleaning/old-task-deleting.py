@@ -24,8 +24,8 @@ except Exception as e:
     print(str(e), flush=True)
     sys.exit(1)
 
-ORIGINALS_FOLDER = "/app/uploads/originals"
-PROCESSED_FOLDER = "/app/uploads/processed"
+ORIGINALS_FOLDER = "/uploads/originals"
+PROCESSED_FOLDER = "/uploads/processed"
 
 with conn.cursor() as cur:
     cur.execute(

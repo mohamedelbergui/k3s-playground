@@ -22,6 +22,9 @@ spec:
               app: worker
         - podSelector:
             matchLabels:
+              app: cleaner
+        - podSelector:
+            matchLabels:
               app.kubernetes.io/component: database
         # CloudNativePG operator
         - namespaceSelector:

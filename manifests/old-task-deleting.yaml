@@ -3,15 +3,21 @@ kind: CronJob
 metadata:
   namespace: playground
   name: old-task-deleting
+  labels:
+    app: cleaner
 spec:
   schedule: "0 0 * * *"
   jobTemplate:
     spec:
       template:
+        metadata:
+          labels:
+            app: cleaner
         spec:
           containers:
             - name: cleaning
-              image: elbergui/playground-cleaner:v1
+              image: elbergui/playground-cleaner:latest
+              imagePullPolicy: Always
               envFrom:
                 - configMapRef: 
                     name: config
