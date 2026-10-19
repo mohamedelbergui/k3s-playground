@@ -45,7 +45,8 @@ spec:
         app: api
     spec:
       containers:
-        - image: elbergui/playground-api:v6
+        - image: elbergui/playground-api:latest
+          imagePullPolicy: Always
           name: api-flask
           resources:
             requests:

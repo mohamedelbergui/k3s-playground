@@ -15,6 +15,7 @@ spec:
       containers:
         - name: worker-pod
           image: elbergui/playground-worker:latest
+          imagePullPolicy: Always
           resources:
             requests:
               memory: "48Mi"

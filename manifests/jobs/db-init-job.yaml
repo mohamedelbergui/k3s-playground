@@ -13,7 +13,8 @@ spec:
     spec:
       containers:
         - name: db-init-job
-          image: elbergui/playground-api:v5
+          image: elbergui/playground-api:latest
+          imagePullPolicy: Always
           envFrom:
             - configMapRef: 
                 name: config
