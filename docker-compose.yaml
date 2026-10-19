@@ -78,12 +78,12 @@ services:
     volumes:
       - type: volume
         source: uploads
-        target: /app/uploads/originals
+        target: /uploads/originals
         volume:
           subpath: originals
       - type: volume
         source: uploads
-        target: /app/uploads/processed
+        target: /uploads/processed
         volume:
           subpath: processed
     depends_on:
