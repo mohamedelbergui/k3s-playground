@@ -12,7 +12,7 @@ metadata:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: flunet
+  name: fluent
 rules:
 - apiGroups: [""]
   resources:
@@ -23,7 +23,7 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: read-secrets-global
+  name: fluent-bit-read
 subjects:
   - kind: ServiceAccount
     name: fluent-bit
