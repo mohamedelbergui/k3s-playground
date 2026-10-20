@@ -79,7 +79,7 @@ Filters (Pillow `ImageFilter`, applied after the resize): `blur`, `sharpen`, `ed
 ├── cleaning/                 # script run by the CronJob
 ├── docker-compose.yaml       # local stack without Kubernetes
 ├── manifests/                # Kubernetes manifests
-└── secrets(not_push)/        # real Secret manifests, git-ignored (create it yourself)
+└── secrets-local/        # real Secret manifests, git-ignored (create it yourself)
 ```
 
 ## Kubernetes resources
@@ -88,8 +88,8 @@ Filters (Pillow `ImageFilter`, applied after the resize): `blur`, `sharpen`, `ed
 |---|---|
 | `playground-ns.yaml` | Namespace `playground` + `default-deny-ingress` NetworkPolicy |
 | `config.yaml` | ConfigMap `config` |
-| `secrets/*.example.yaml`, `secrets/grafana-secret.exemple.yaml` | Secret templates: `postgres-secret`, `secret-config`, `gf-secret` |
-| `pvc.yaml` | PVC `uploads-pvc` (100Mi, RWO) |
+| `secrets-example/*.example.yaml`, `secrets-example/grafana-secret.example.yaml` | Secret templates: `postgres-secret`, `secret-config`, `gf-secret` |
+| `uploads-pvc.yaml` | PVC `uploads-pvc` (100Mi, RWO) |
 | `postgres.yaml` | CNPG `Cluster` `postgres` (3 instances, 100Mi each) + NetworkPolicy |
 | `queue.yaml` | Redis Deployment, Service `queue-svc`, NetworkPolicy |
 | `api.yaml` | Deployment (liveness/readiness probes, resource limits), Service `api-svc`, NetworkPolicy |
@@ -210,15 +210,15 @@ kubectl apply -f manifests/config.yaml
 
 ### 3. Secrets
 
-Real Secret manifests live in `secrets(not_push)/`, which is listed in `.gitignore`. Never put filled-in files in `manifests/secrets/`, which only holds the templates.
+Real Secret manifests live in `secrets-local/`, which is listed in `.gitignore`. Never put filled-in files in `manifests/secrets-example/`, which only holds the templates.
 
 ```bash
-mkdir -p "secrets(not_push)"
-cp manifests/secrets/postgres-secret.example.yaml "secrets(not_push)/postgres-secret.yaml"
-cp manifests/secrets/secret-config.example.yaml   "secrets(not_push)/secret-config.yaml"
+mkdir -p "secrets-local"
+cp manifests/secrets-example/postgres-secret.example.yaml "secrets-local/postgres-secret.yaml"
+cp manifests/secrets-example/secret-config.example.yaml   "secrets-local/secret-config.yaml"
 # replace CHANGE_ME in both files, then:
-kubectl apply -f "secrets(not_push)/postgres-secret.yaml"
-kubectl apply -f "secrets(not_push)/secret-config.yaml"
+kubectl apply -f "secrets-local/postgres-secret.yaml"
+kubectl apply -f "secrets-local/secret-config.yaml"
 ```
 
 Constraint: `postgres-secret` bootstraps the database through CloudNativePG. Its `username` must equal the `owner` in `postgres.yaml` (`admin`), and `secret-config` (`POSTGRES_USER`, `POSTGRES_PASSWORD`) must carry the same credentials, since the application uses it to connect.
@@ -226,7 +226,7 @@ Constraint: `postgres-secret` bootstraps the database through CloudNativePG. Its
 ### 4. Storage, database, queue
 
 ```bash
-kubectl apply -f manifests/pvc.yaml
+kubectl apply -f manifests/uploads-pvc.yaml
 kubectl apply -f manifests/postgres.yaml
 kubectl apply -f manifests/queue.yaml
 
@@ -264,14 +264,14 @@ kubectl apply -f manifests/old-task-deleting.yaml
 kubectl apply -f manifests/logging/rbac-fluent.yaml
 
 # Grafana admin credentials
-cp manifests/secrets/grafana-secret.exemple.yaml "secrets(not_push)/grafana-secret.yaml"
+cp manifests/secrets-example/grafana-secret.example.yaml "secrets-local/grafana-secret.yaml"
 # replace CHANGE_ME, then:
-kubectl apply -f "secrets(not_push)/grafana-secret.yaml"
+kubectl apply -f "secrets-local/grafana-secret.yaml"
 
 kubectl apply -f manifests/logging/loki.yaml
 kubectl apply -f manifests/logging/grafana.yaml
 kubectl apply -f manifests/logging/fluent-bit-config.yaml
-kubectl apply -f manifests/logging/fluent-bit-daementset.yaml
+kubectl apply -f manifests/logging/fluent-bit-daemonset.yaml
 ```
 
 ## Access

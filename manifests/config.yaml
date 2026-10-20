@@ -9,4 +9,4 @@ data:
   POSTGRES_DB: "k3s-playground-db"
   REDIS_HOST: queue-svc
   REDIS_PORT: "6379"
-  CLEANING_AFTER: "0"
+  CLEANING_AFTER: "30"
