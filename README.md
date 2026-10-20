@@ -48,6 +48,15 @@ Storage: a single PVC (`uploads-pvc`) is mounted with `subPath: originals` and `
 
 Files are stored as `<uuid><extension>` in both directories.
 
+## Screenshots
+
+<p>
+  <img src="docs/screenshots/api.interface.png" alt="Gallery: original and processed images side by side" width="49%">
+  <img src="docs/screenshots/grafana.png" alt="Grafana Explore: API logs collected by Fluent Bit and stored in Loki" width="49%">
+</p>
+
+*Left: the gallery with original and processed images. Right: API logs in Grafana, collected by Fluent Bit and stored in Loki.*
+
 ## API
 
 | Method | Path | Description |
@@ -77,9 +86,15 @@ Filters (Pillow `ImageFilter`, applied after the resize): `blur`, `sharpen`, `ed
 │   └── db_init.py            # creates the schema
 ├── worker/                   # image-processing worker
 ├── cleaning/                 # script run by the CronJob
-├── docker-compose.yaml       # local stack without Kubernetes
+├── docs/                     # architecture diagram and screenshots
 ├── manifests/                # Kubernetes manifests
-└── secrets-local/        # real Secret manifests, git-ignored (create it yourself)
+│   ├── hpa/                  # HorizontalPodAutoscalers (api, worker)
+│   ├── jobs/                 # db-init Job
+│   ├── logging/              # Fluent Bit, Loki, Grafana, RBAC
+│   └── secrets-example/      # Secret templates (no real values)
+├── docker-compose.yaml       # local stack without Kubernetes
+├── .env.example              # variables for the local Compose stack
+└── secrets-local/            # real Secret manifests, git-ignored (create it yourself)
 ```
 
 ## Kubernetes resources
