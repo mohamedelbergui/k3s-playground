@@ -30,5 +30,5 @@ subjects:
     namespace: logging
 roleRef:
   kind: ClusterRole
-  name: flunet
+  name: fluent
   apiGroup: rbac.authorization.k8s.io
